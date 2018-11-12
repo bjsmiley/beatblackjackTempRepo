@@ -1,0 +1,6 @@
+framework module Pods_beatblackjack {
+  umbrella header "Pods-beatblackjack-umbrella.h"
+
+  export *
+  module * { export * }
+}
