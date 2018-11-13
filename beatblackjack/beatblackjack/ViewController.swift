@@ -20,10 +20,35 @@
 //    }
 //}
 
+//switch (response, error){
+//case let (nil, er):
+//    print(er!)
+//case let (res, nil):
+//    let json = res!
+//    print(json)
+//    print("hi")
+//default:
+//    return
+//}
+
 
 import UIKit
 import Alamofire
 import SwiftyJSON
+
+extension UIImageView {
+    func loadurl(url: URL) {
+        DispatchQueue.global().async { [weak self] in
+            if let data = try? Data(contentsOf: url) {
+                if let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self?.image = image
+                    }
+                }
+            }
+        }
+    }
+}
 
 class ViewController: UIViewController {
 
@@ -40,86 +65,71 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var createLabel: UILabel!
     @IBAction func createDeck() {
-        createLabel.text = "getting..."
-        
-        let url = "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1"
-        
-        Alamofire.request( url ).validate().responseJSON{ res in
-            switch res.result{
-            case .success(let value):
-                let json = JSON(value)
+        Api.createDeck(deck_count: "1"){ response, error in
+            switch (response, error){
+            case let (nil, er):
+                print(er!)
+            case let (res, nil):
+                let json = res!
                 print(json)
                 self.deck_id = json["deck_id"].stringValue
-                let bs = json["bullshit"]
-                print("bullshit: \(bs)")
-            case .failure(let error):
-                print(error)
-                
+            default:
+                return
             }
-            self.createLabel.text = "done!"
         }
-        createLabel.text = "wating..."
+        
     }
     
     
     
     
+    @IBOutlet weak var cardView: UIImageView!
     @IBOutlet weak var countField: UITextField!
     @IBOutlet weak var drawCardLabel: UILabel!
     @IBAction func drawCard() {
-        drawCardLabel.text = "getting..."
-        
         let count = countField.text ?? "1"
         
-        var url = "https://deckofcardsapi.com/api/deck/"
-        url += deck_id ?? "unknown"
-        url += "/draw/?count="
-        url += count
-        print("Request sent to: \(url)")
-        
-        Alamofire.request( url ).validate().responseJSON{ res in
-            switch res.result{
-            case .success(let value):
-                let json = JSON(value)
+        Api.drawCard(deck_id: deck_id ?? "unknown", count: count){ response, error in
+            switch (response, error){
+            case let (nil, er):
+                print(er!)
+            case let (res, nil):
+                let json = res!
                 print(json)
                 if( json["success"].boolValue ){
                     let arrayCardUrls = json["cards"].arrayValue.map({
                         $0["image"].stringValue
                     })
+                    let cardUrl = URL( string: arrayCardUrls[0] )
+                    self.cardView.loadurl(url: cardUrl! )
                     self.responseField.text += arrayCardUrls.reduce("",{$0 + " " + $1})
                 }
                 else{
                     print(json["error"].stringValue)
                 }
-            case .failure(let error):
-                print(error)
-                
+            default:
+                return
             }
-            self.drawCardLabel.text = "done!"
         }
-        drawCardLabel.text = "wating..."
     }
     
     
     
     @IBAction func shuffleDeck() {
-        Api.shuffleDeck(deck_id: deck_id!){ res in
-            switch res.result{
-            case .success(let value):
-                let json = JSON(value)
+        Api.shuffleDeck(deck_id: deck_id!){ response, error in
+            switch (response, error){
+            case let (nil, er):
+                print(er!)
+            case let (res, nil):
+                let json = res!
                 print(json)
-            case .failure(let error):
-                print(error)
-        
+                print("hi")
+            default:
+                return
             }
         }
     }
     
-    // now make a BETTER API FILE for handling if the api call itself
-    // gets an error
-    
-    // so we then only have to deal with success or failures of a valid
-    // api call...
     
 
     

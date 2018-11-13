@@ -97,7 +97,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Kxe-8z-lqE">
-                                <rect key="frame" x="20" y="450" width="358" height="311"/>
+                                <rect key="frame" x="20" y="450" width="335" height="146"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -110,12 +110,17 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YOb-Xt-1lH">
+                                <rect key="frame" x="20" y="624" width="149" height="238"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.36611479926943014" green="0.36611479926943014" blue="0.36611479926943014" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
                         <outlet property="apiDescription" destination="k4r-mv-FB1" id="Xtz-3F-xPR"/>
+                        <outlet property="cardView" destination="YOb-Xt-1lH" id="yj9-IM-YZy"/>
                         <outlet property="countField" destination="xJV-yo-uOj" id="wlX-CH-ImJ"/>
                         <outlet property="createLabel" destination="kws-PT-6mo" id="sO6-h4-0FF"/>
                         <outlet property="drawCardLabel" destination="gAi-Sg-bSo" id="BLw-FI-uZa"/>
